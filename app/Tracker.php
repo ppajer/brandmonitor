@@ -11,8 +11,9 @@ require '../vendor/ppajer/searchresults/lib/HTML5DOMTokenList.php';
 require '../vendor/ppajer/searchresults/lib/class.DOM_Extractor.php';
 require '../vendor/ppajer/searchresults/lib/class.Request.php';
 require '../vendor/ppajer/searchresults/lib/class.ParallelRequest.php';
-require '../vendor/ppajer/searchresults/lib/WebScraper.php';
-require '../vendor/ppajer/searchresults/lib/SearchResults.php';
+require '../vendor/ppajer/searchresults/lib/class.WebScraper.php';
+require '../vendor/ppajer/searchresults/SearchResults.php';
+
 use ppajer\SearchResults;
 
 use Illuminate\Database\Eloquent\Model;
