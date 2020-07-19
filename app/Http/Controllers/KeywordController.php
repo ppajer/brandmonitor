@@ -17,12 +17,12 @@ class KeywordController extends Controller
         $this->middleware('auth');
     }
 
-    public static function findOrCreate($keyword) {
+    public static function findOrCreate($keyword, $location) {
         $find = Keyword::where('text', $keyword)->get();
         if ($find->count()) {
             return $find->first();
         }
-        $new = new Keyword(['text' => $keyword]);
+        $new = new Keyword(['text' => $keyword, 'location' => $location]);
         $new->save();
         return $new;
     }

@@ -58,7 +58,7 @@ class TrackerController extends Controller
             $tracker = new Tracker([
                 'location' => $request->get('location')
             ]);
-            $tracker->keyword()->associate($this->findOrCreateKeyword(trim($keyword), $tracker->location));
+            $tracker->keyword()->associate(KeywordController::findOrCreate(trim($keyword), $tracker->location));
             $tracker->user()->associate(\Auth::user());
             $tracker->website()->associate(Website::find($request->get('website')));
             $tracker->save();
@@ -113,13 +113,11 @@ class TrackerController extends Controller
     }
 
     private function saveResult($serps, $tracker) {
-        $count = 0;
-        foreach ($serps as $serp) {
-            $model = SERPController::createFromScrapeResult($serp, $tracker);
-            $model->save();
-            $count++;
-        }
-        return $count;
+        return array_reduce($serps, function($count, $serp) use ($tracker) {
+            $new = SERPController::createFromScrapeResult($serp, $tracker);
+            $new->save();
+            return ++$count;
+        }, 0);
     }
 
     public function scrapeAll(Request $request) {
