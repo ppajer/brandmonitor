@@ -37,7 +37,7 @@ class Tracker extends Model
 	}
 
 	public function scrape() {
-		$serps = new SearchResults($this->scraperOpts());var_dump($serps->get());
+		$serps = new SearchResults($this->scraperOpts());
 		return $serps->get();
 	}
 

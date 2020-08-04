@@ -21,13 +21,18 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', 'PageController@index');
-Route::get('/home', 'PageController@home')->name('home');
+Route::get('/', 'PageController@home')->name('home');
 Route::get('/comingsoon', 'PageController@comingsoon');
 
-Route::get('/seo-monitor', 'PageController@seoMonitor')->name('seomonitor');
-Route::get('/seo-monitor/websites', 'PageController@seoMonitorWebsites')->name('seomonitor.websites');
-Route::get('/seo-monitor/keywords', 'PageController@seoMonitorKeywords')->name('seomonitor.keywords');
+// TRACK
+Route::get('/seo-monitor', 'SEOMonitorController@index')->name('seomonitor');
+Route::get('/seo-monitor/websites', 'SEOMonitorController@websites')->name('seomonitor.websites');
+Route::get('/seo-monitor/keywords', 'SEOMonitorController@keywords')->name('seomonitor.keywords');
+
+// EXPLORE
+Route::get('/seo-monitor/explore', 'SEOMonitorController@explore')->name('seomonitor.explore');
+Route::get('/seo-monitor/explore/keyword', 'SEOMonitorController@exploreKeyword')->name('seomonitor.explore.keyword');
+Route::get('/seo-monitor/explore/website', 'SEOMonitorController@exploreWebsite')->name('seomonitor.explore.website');
 
 /*
 |--------------------------------------------------------------------------

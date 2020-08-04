@@ -38,23 +38,13 @@ class PageController extends Controller
     *   SEO
     */
 
-    public function seoMonitor(Request $request) {
-        $user = \Auth::user();
-        $websites = $user->websites()->get();
-        $trackers = $user->trackers()->get();
-        $keywords = \App\Keyword::whereHas('trackers', function($q) use ($trackers) {
-            $q->whereIn('trackers.id', $trackers->map(function($tracker){
-                return $tracker->id;
-            }));
-        })->get();
-        return view('seomonitor', ['websites' => $websites, 'trackers' => $trackers, 'keywords' => $keywords]);
-    }
+    // Moved to SEOMonitorController
 
     /*
     *   REVIEWS
     */
 
     public function reviewMonitor(Request $request) {
-        return view('reviewmonitor', ['customers' => []]);
+        return view('reviewmonitor.index', ['customers' => []]);
     }
 }
