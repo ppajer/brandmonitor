@@ -28,7 +28,7 @@ class SERPController extends Controller
                 'location' => $tracker->location
             ]);
         $model->keyword()->associate($tracker->keyword()->first());
-        
+        // maybe save here instead of returning? not sure
         return $model;
     }
 

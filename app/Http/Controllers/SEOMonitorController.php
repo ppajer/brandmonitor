@@ -26,7 +26,12 @@ class SEOMonitorController extends Controller
                 return $tracker->id;
             }));
         })->get();
-        return view('seomonitor.index', ['websites' => $websites, 'trackers' => $trackers, 'keywords' => $keywords]);
+
+        return view('seomonitor.index', [
+            'websites' => $websites, 
+            'trackers' => $trackers, 
+            'keywords' => $keywords
+        ]);
     }
 
     public function explore() {

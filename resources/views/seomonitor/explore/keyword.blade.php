@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-12">
             <h1>
-                Results for keyword: {{ $keyword }} in {{ $location }}
+                Results for keyword: {{ $keyword }} <small>in {{ $location }}</small>
             </h1>
         </div>
     </div>

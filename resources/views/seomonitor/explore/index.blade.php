@@ -24,10 +24,20 @@
                   <form method="GET" action="{{ route('seomonitor.explore.keyword') }}">
                       <div class="form-group">
                           <label>Keyword</label>
-                          <input type="text" name="keyword">
-                          <button type="submit" class="btn btn-primary">
-                              Search
-                          </button>
+                          <input class="form-control" type="text" name="keyword">
+                      </div>
+                      <div class="form-group">
+                          <label for="location">Location</label>
+                          <select class="form-control" name="location">
+                              <option value="Budapest,Budapest,Hungary">Hungary</option>
+                              <option value="London,England,United Kingdom">United Kingdom</option>
+                              <option value="SoHo,New York,United States">United States</option>
+                          </select>
+                      </div>
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            Search
+                        </button>
                       </div>
                   </form>
               </div>
@@ -36,9 +46,11 @@
                       <div class="form-group">
                           <label>Domain</label>
                           <input type="text" name="domain">
-                          <button type="submit" class="btn btn-primary">
-                              Search
-                          </button>
+                      </div>
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            Search
+                        </button>
                       </div>
                   </form>
               </div>
