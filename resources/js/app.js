@@ -1,6 +1,6 @@
 require('./bootstrap');
 
-const Autocomplete = require('./AutocompleteLocation.js');
+const Autocomplete = require('./Autocomplete.js');
 
 jQuery(document).ready(init);
 
