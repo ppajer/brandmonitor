@@ -20,7 +20,7 @@ class SERPController extends Controller
 
 
     public static function createFromScrapeResult($serp, $tracker) {
-        $model = new SERP([
+        $model = SERP::create([
                 'title' => $serp['title'],
                 'description' => $serp['description'],
                 'url' => $serp['link'],
@@ -28,7 +28,7 @@ class SERPController extends Controller
                 'location' => $tracker->location
             ]);
         $model->keyword()->associate($tracker->keyword()->first());
-        // maybe save here instead of returning? not sure
+        $model->save();
         return $model;
     }
 

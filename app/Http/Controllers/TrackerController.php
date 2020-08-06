@@ -112,25 +112,20 @@ class TrackerController extends Controller
         //
     }
 
-    private function saveResult($serps, $tracker) {
-        return array_reduce($serps, function($count, $serp) use ($tracker) {
-            $new = SERPController::createFromScrapeResult($serp, $tracker);
-            $new->save();
-            return ++$count;
-        }, 0);
-    }
-
     public function scrapeAll(Request $request) {
+        // Iterate over trackers
         $count = Tracker::where('user_id', \Auth::user()->id)->get()->reduce(function($count, $tracker) {
-            $count += $this->saveResult($tracker->scrape(), $tracker);
-            return $count;
+            return $count + $this->scrape($tracker);
         }, 0);
 
         return redirect($request->get('return') ?? '/seo-monitor')->with('success', "Successfully updated $count keywords.");
     }
 
-    public function scrape(Request $request, Tracker $tracker) {
-        $this->saveResult($tracker->scrape(), $tracker);
-        return redirect($request->get('return') ?? '/seo-monitor')->with('success', "Successfully updated keyword.");
+    private function scrape(Tracker $tracker) {
+        array_map(function($serp) use ($tracker) {
+            SERPController::createFromScrapeResult($serp, $tracker);
+        }, $tracker->scrape());
+        
+        return 1;
     }
 }
