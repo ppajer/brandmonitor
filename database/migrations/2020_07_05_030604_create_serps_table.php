@@ -17,8 +17,8 @@ class CreateSERPSTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('title');
-            $table->string('description');
-            $table->string('url');
+            $table->text('description');
+            $table->text('url');
             $table->integer('position');
             $table->string('location');
             $table->foreignId('keyword_id')->nullable()->constrained()->onDelete('cascade');
