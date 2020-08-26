@@ -20,16 +20,6 @@ class TrackerController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -54,66 +44,23 @@ class TrackerController extends Controller
                 'location' => 'required'
             ]);
 
-        foreach (explode(',', $request->keywords) as $keyword) {
-            $tracker = new Tracker([
-                'location' => $request->get('location')
-            ]);
-            $tracker->keyword()->associate(KeywordController::findOrCreate(trim($keyword), $tracker->location));
+        array_map(function($keyword) use ($request) {
+            $tracker = new Tracker();
+            $tracker->keyword()->associate(
+                KeywordController::findOrCreate(
+                    trim($keyword), 
+                    $request->get('location')
+                )
+            );
             $tracker->user()->associate(\Auth::user());
             $tracker->website()->associate(Website::find($request->get('website')));
             $tracker->save();
-        }
+        }, explode(',', $request->keywords));
 
         return redirect($request->get('redirect_to'))->with('success', 'Keywords successfully tracked! Check back later to see the first results, or update them now.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Tracker  $tracker
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Tracker $tracker)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Tracker  $tracker
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Tracker $tracker)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Tracker  $tracker
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Tracker $tracker)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Tracker  $tracker
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Tracker $tracker)
-    {
-        //
-    }
-
     public function scrapeAll(Request $request) {
-        // Iterate over trackers
         $count = Tracker::where('user_id', \Auth::user()->id)->get()->reduce(function($count, $tracker) {
             return $count + $this->scrape($tracker);
         }, 0);
@@ -123,8 +70,12 @@ class TrackerController extends Controller
 
     private function scrape(Tracker $tracker) {
         array_map(function($serp) use ($tracker) {
+            // Don't create duplicates
+            if (SERPController::findFromScrapeResult($serp, $tracker)->count()) {
+                return;
+            }
             SERPController::createFromScrapeResult($serp, $tracker);
-        }, $tracker->scrape());
+        }, $tracker->get());
         
         return 1;
     }

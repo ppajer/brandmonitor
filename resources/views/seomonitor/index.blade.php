@@ -1,6 +1,6 @@
-@extends('layouts.seomonitor')
+@extends('layouts.app')
 
-@section('body')
+@section('content')
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -45,9 +45,9 @@
                         @foreach ($trackers as $tracker)
                             <tr>
                                 <td>{{$tracker->keyword->text }}</td>
-                                <td>{{$tracker->location}}</td>
+                                <td>{{$tracker->keyword->location}}</td>
                                 <td>{{$tracker->website->name}}</td>
-                                <td>{{$tracker->currentPosition($tracker->keyword)}}</td>
+                                <td>{{($tracker->last_position === -1) ? 'N/A' : $tracker->last_position}}</td>
                             </tr>
                         @endforeach
                         @endif

@@ -18,93 +18,51 @@ class SERPController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Attempt to find existing SERP for given
+     * tracker and result combination.
+     *
+     * @return App\SERP
+     */
+    public static function findFromScrapeResult($serp, $tracker) {
+        return $tracker->keyword()
+                        ->first()
+                        ->SERPs()
+                        ->where([
+                            'title' => $serp['title'],
+                            'description' => $serp['description'],
+                            'url' => $serp['link'],
+                            'domain' => $domain,
+                            'position' => $serp['position']
+                        ])
+                        ->get();
+    }
 
+    /**
+     * Create new SERP from scraper data
+     *
+     * @return App\SERP
+     */
     public static function createFromScrapeResult($serp, $tracker) {
+        
+        if (!isset($serp['link'])) {
+            return false;
+        }
+
+        $parts = explode('://', $serp['link']);
+        $url = explode('/', $parts[1]);
+        $domain = $url[0];
+
         $model = SERP::create([
                 'title' => $serp['title'],
                 'description' => $serp['description'],
                 'url' => $serp['link'],
-                'position' => $serp['position'],
-                'location' => $tracker->location
+                'domain' => $domain,
+                'position' => $serp['position']
             ]);
+
         $model->keyword()->associate($tracker->keyword()->first());
         $model->save();
         return $model;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\SERP  $sERP
-     * @return \Illuminate\Http\Response
-     */
-    public function show(SERP $sERP)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\SERP  $sERP
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(SERP $sERP)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\SERP  $sERP
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, SERP $sERP)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\SERP  $sERP
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(SERP $sERP)
-    {
-        //
     }
 }

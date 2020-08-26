@@ -11,6 +11,7 @@ class SERP extends Model
 	protected $fillable = [
 		'title',
 		'description',
+		'domain',
 		'url',
 		'position',
 		'location'

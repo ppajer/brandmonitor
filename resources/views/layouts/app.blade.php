@@ -50,13 +50,13 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/review-monitor') }}">
-                                    Recognition
+                                <a class="nav-link" href="{{ url('/track') }}">
+                                    Tracker
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/seo-monitor') }}">
-                                    SEO
+                                <a class="nav-link" href="{{ url('/explore') }}">
+                                    Explorer
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -96,12 +96,7 @@
             </div>
         </nav>
         <div class="row">
-            @hasSection('sidebar')
-            <aside id="sidebar" class="col-12 col-md-3 col-lg-2 order-2 order-md-1 bg-dark navbar-dark shadow-sm">
-                @yield('sidebar')
-            </aside>
-            @endif
-            <main class="col-12 col-md-9 col-lg-10 offset-md-3 offset-lg-2 order-1 order-md-2 py-4">
+            <main class="col-12 py-4">
                 @if(session()->get('success'))
                     <div class="alert alert-success">
                         {{ session()->get('success') }}  

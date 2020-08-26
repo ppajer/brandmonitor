@@ -2,43 +2,29 @@
 
 namespace App;
 
-// wtf is psr4
-/*require '../vendor/ppajer/searchresults/lib/HTML5DOMDocument/Internal/QuerySelectors.php';
-require '../vendor/ppajer/searchresults/lib/HTML5DOMDocument.php';
-require '../vendor/ppajer/searchresults/lib/HTML5DOMElement.php';
-require '../vendor/ppajer/searchresults/lib/HTML5DOMNodeList.php';
-require '../vendor/ppajer/searchresults/lib/HTML5DOMTokenList.php';
-require '../vendor/ppajer/searchresults/lib/class.DOM_Extractor.php';
-require '../vendor/ppajer/searchresults/lib/class.Request.php';
-require '../vendor/ppajer/searchresults/lib/class.ParallelRequest.php';
-require '../vendor/ppajer/searchresults/lib/class.WebScraper.php';
-require '../vendor/ppajer/searchresults/SearchResults.php';*/
-
 use \ppajer\SearchResults;
-
 use Illuminate\Database\Eloquent\Model;
 
 class Tracker extends Model
 {
-	protected $fillable = [
-		'location'
-	];
+	protected $fillable = [];
 
-	public function currentPosition(\App\Keyword $keyword) {
-		return $keyword->SERPs()->latest()->position ?? 'N/A';
-	}
+	public function get() {
 
-	public function scraperOpts() {
-		return [
-            'query' => $this->keyword()->first()->text, 
-            'location' => $this->location, 
+		$keyword = $this->keyword()->first();
+		$serps = new SearchResults([
+            'query' => $keyword->text, 
+            'location' => $keyword->location, 
             'limit' => 5
-        ];
+        ]);
+
+		return $serps->get();
 	}
 
-	public function scrape() {
-		$serps = new SearchResults($this->scraperOpts());
-		return $serps->get();
+	public function updateLastPosition(\App\SERP $serp) {
+		if ($serp->domain === $this->website()->first()->root_url) {
+			# code...
+		}
 	}
 
 	public function user() {

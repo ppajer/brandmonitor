@@ -16,7 +16,7 @@ class CreateTrackersTable extends Migration
         Schema::create('trackers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('location');
+            $table->integer('last_position');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('website_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('keyword_id')->nullable()->constrained()->onDelete('cascade');

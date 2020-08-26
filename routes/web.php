@@ -25,14 +25,14 @@ Route::get('/', 'PageController@home')->name('home');
 Route::get('/comingsoon', 'PageController@comingsoon');
 
 // TRACK
-Route::get('/seo-monitor', 'SEOMonitorController@index')->name('seomonitor');
-Route::get('/seo-monitor/websites', 'SEOMonitorController@websites')->name('seomonitor.websites');
-Route::get('/seo-monitor/keywords', 'SEOMonitorController@keywords')->name('seomonitor.keywords');
+Route::get('/track', 'SEOMonitorController@index')->name('track');
+Route::get('/track/websites', 'SEOMonitorController@websites')->name('track.websites');
+Route::get('/track/keywords', 'SEOMonitorController@keywords')->name('track.keywords');
 
 // EXPLORE
-Route::get('/seo-monitor/explore', 'SEOMonitorController@explore')->name('seomonitor.explore');
-Route::get('/seo-monitor/explore/keyword', 'SEOMonitorController@exploreKeyword')->name('seomonitor.explore.keyword');
-Route::get('/seo-monitor/explore/website', 'SEOMonitorController@exploreWebsite')->name('seomonitor.explore.website');
+Route::get('/explore', 'SEOMonitorController@explore')->name('explore');
+Route::get('/explore/keyword', 'SEOMonitorController@exploreKeyword')->name('explore.keyword');
+Route::get('/explore/website', 'SEOMonitorController@exploreWebsite')->name('explore.website');
 
 /*
 |--------------------------------------------------------------------------
